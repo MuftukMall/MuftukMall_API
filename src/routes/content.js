@@ -10,8 +10,15 @@ content.get("/batch/:batchSlug/:subjectSlug/contents", async (req, res) => {
       .find({ subject: _slug })
       .find(req.query)
       .select(["-__v", "-subject", "-contentType"]).sort({ index: -1 });
+
+    const updatedContent = GetContent.map(content => {
+      const newContent = { ...content._doc };
+      newContent.contentUrl = newContent.contentUrl.replace("https://d2bps9p1kiy4ka.cloudfront.net", "https://muftukmall-url.vercel.app/");
+      return newContent;
+    });
+
     res.setHeader("Cache-Control", "public, s-maxage=240, stale-while-revalidate=300");
-    res.send({ success: true, Data: GetContent });
+    res.send({ success: true, Data: updatedContent });
   } catch (error) {
     res.status(400).send({ success: false, message: error.message });
   }
