@@ -1,3 +1,4 @@
+import "dotenv/config.js";
 import contentModel from "../models/contentModel.js";
 import { Router } from "express";
 
